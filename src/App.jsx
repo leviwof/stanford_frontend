@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FormPanel from '../components/Form/FormPanel.jsx';
+import FormPanel from '../components/form/FormPanel.jsx';
 import ChatContainer from '../components/Chat/ChatContainer.jsx';
 
 function App() {
