@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FormPanel from '../components/form/FormPanel.jsx';
-import ChatContainer from '../components/Chat/ChatContainer.jsx';
+import ChatContainer from '../components/chat/ChatContainer.jsx';
 
 function App() {
     const [activeTab, setActiveTab] = useState('chat'); // 'chat' or 'form'
