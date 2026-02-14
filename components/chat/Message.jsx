@@ -1,4 +1,5 @@
 import React from 'react';
+import AIAvatar from './AIAvatar.jsx';
 import styles from './Message.module.css';
 
 function Message({ role, content }) {
@@ -6,16 +7,22 @@ function Message({ role, content }) {
 
     return (
         <div className={`${styles.message} ${isAi ? styles.ai : styles.user}`}>
-            <div className={styles.avatar}>
-                {isAi ? '🤖' : '👤'}
+            {/* Avatar */}
+            <div className={styles.avatarWrap}>
+                {isAi ? (
+                    <AIAvatar isSpeaking={false} size={32} />
+                ) : (
+                    <div className={styles.userAvatar}>
+                        <span className="material-icons-round" style={{ fontSize: '16px' }}>person</span>
+                    </div>
+                )}
             </div>
+
+            {/* Bubble */}
             <div className={styles.bubble}>
-                <div className={styles.role}>{isAi ? 'AI Assistant' : 'You'}</div>
-                <div className={styles.content}>
-                    {content.split('\n').map((line, i) => (
-                        <p key={i}>{line}</p>
-                    ))}
-                </div>
+                {content.split('\n').map((line, i) => (
+                    <p key={i}>{line}</p>
+                ))}
             </div>
         </div>
     );

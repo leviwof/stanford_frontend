@@ -10,7 +10,6 @@ function FormPanel() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    // Fetch entries on mount
     useEffect(() => {
         fetchEntries();
     }, []);
@@ -18,7 +17,7 @@ function FormPanel() {
     const fetchEntries = async () => {
         try {
             const result = await getFormEntries();
-            setEntries(result.data);
+            setEntries(result.data || []);
         } catch (err) {
             console.error('Failed to fetch entries:', err);
         }
@@ -41,7 +40,7 @@ function FormPanel() {
             await submitForm(formData);
             setSuccess('Form submitted successfully!');
             setFormData({ name: '', email: '', message: '' });
-            fetchEntries(); // Refresh list
+            fetchEntries();
         } catch (err) {
             setError(err.message);
         } finally {
@@ -50,11 +49,17 @@ function FormPanel() {
     };
 
     return (
-        <div className={styles.container}>
-            <div className={styles.formSection}>
-                <h2>Contact Form</h2>
+        <div className={styles.wrapper}>
+            {/* Form Card */}
+            <div className={styles.card}>
+                <div className={styles.cardHeader}>
+                    <span className="material-icons-round" style={{ fontSize: '22px', color: 'var(--brand-primary)' }}>
+                        mail
+                    </span>
+                    <h2 className={styles.cardTitle}>Contact Form</h2>
+                </div>
 
-                <form onSubmit={handleSubmit} className={styles.form}>
+                <form onSubmit={handleSubmit} className={styles.form} id="contact-form">
                     <div className={styles.field}>
                         <label htmlFor="name">Name</label>
                         <input
@@ -64,7 +69,7 @@ function FormPanel() {
                             value={formData.name}
                             onChange={handleChange}
                             required
-                            placeholder="Enter your name"
+                            placeholder="Enter your full name"
                         />
                     </div>
 
@@ -77,7 +82,7 @@ function FormPanel() {
                             value={formData.email}
                             onChange={handleChange}
                             required
-                            placeholder="Enter your email"
+                            placeholder="you@example.com"
                         />
                     </div>
 
@@ -89,26 +94,54 @@ function FormPanel() {
                             value={formData.message}
                             onChange={handleChange}
                             required
-                            placeholder="Enter your message"
+                            placeholder="Write your message here..."
                             rows={4}
                         />
                     </div>
 
-                    {error && <div className={styles.error}>{error}</div>}
-                    {success && <div className={styles.success}>{success}</div>}
+                    {error && (
+                        <div className={styles.alert + ' ' + styles.alertError}>
+                            <span className="material-icons-round" style={{ fontSize: '18px' }}>error_outline</span>
+                            {error}
+                        </div>
+                    )}
+                    {success && (
+                        <div className={styles.alert + ' ' + styles.alertSuccess}>
+                            <span className="material-icons-round" style={{ fontSize: '18px' }}>check_circle</span>
+                            {success}
+                        </div>
+                    )}
 
                     <button
                         type="submit"
                         className={styles.submitBtn}
                         disabled={loading}
+                        id="submit-form-btn"
                     >
-                        {loading ? 'Submitting...' : 'Submit'}
+                        {loading ? (
+                            <>
+                                <span className={styles.spinner}></span>
+                                Submitting...
+                            </>
+                        ) : (
+                            <>
+                                Submit
+                                <span className="material-icons-round" style={{ fontSize: '18px' }}>send</span>
+                            </>
+                        )}
                     </button>
                 </form>
             </div>
 
-            <div className={styles.entriesSection}>
-                <h2>Submitted Entries ({entries.length})</h2>
+            {/* Entries Card */}
+            <div className={styles.card}>
+                <div className={styles.cardHeader}>
+                    <span className="material-icons-round" style={{ fontSize: '22px', color: 'var(--brand-secondary)' }}>
+                        list_alt
+                    </span>
+                    <h2 className={styles.cardTitle}>Submitted Entries</h2>
+                    <span className={styles.countBadge}>{entries.length}</span>
+                </div>
                 <EntryList entries={entries} />
             </div>
         </div>

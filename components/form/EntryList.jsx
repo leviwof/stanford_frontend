@@ -2,9 +2,12 @@ import React from 'react';
 import styles from './FormPanel.module.css';
 
 function EntryList({ entries }) {
-    if (entries.length === 0) {
+    if (!entries || entries.length === 0) {
         return (
             <div className={styles.emptyState}>
+                <span className="material-icons-round" style={{ fontSize: '32px', marginBottom: '8px', display: 'block', opacity: 0.4 }}>
+                    inbox
+                </span>
                 No entries yet. Submit the form to see entries here.
             </div>
         );
@@ -22,7 +25,6 @@ function EntryList({ entries }) {
                     <div className={styles.entryDate}>
                         {new Date(entry.created_at).toLocaleString()}
                     </div>
-
                 </div>
             ))}
         </div>

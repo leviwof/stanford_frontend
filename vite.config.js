@@ -6,9 +6,9 @@ export default defineConfig({
     server: {
         port: 5173,
         proxy: {
-            '/api': 'https://stanford-ai-backend-1.onrender.com',
+            '/api': 'http://localhost:3001',
             '/voice': {
-                target: 'wss://stanford-ai-backend-1.onrender.com',
+                target: 'ws://localhost:3001',
                 ws: true
             }
         }

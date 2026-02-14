@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-const WS_URL = 'ws://localhost:3001/voice';
+const WS_URL = `ws://${window.location.hostname}:3001/voice`;
 const AUDIO_SAMPLE_RATE = 16000;
 
 export function useVoiceWebSocket() {
@@ -66,7 +66,6 @@ export function useVoiceWebSocket() {
             const dataView = new DataView(arrayBuffer);
 
             for (let i = 0; i < audioData.length; i++) {
-                // Convert 16-bit PCM to float
                 audioData[i] = dataView.getInt16(i * 2, true) / 32768;
             }
 

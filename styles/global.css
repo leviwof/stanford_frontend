@@ -1,128 +1,288 @@
-* {
+/* ================================================================
+   Global Styles — HelloIvy Light Theme
+   ================================================================ */
+
+/* ── CSS Variables ── */
+:root {
+    --bg-main: #f4f5f8;
+    --bg-white: #ffffff;
+    --bg-input: #f8f9fb;
+
+    --text-primary: #1a1a2e;
+    --text-secondary: #4a5568;
+    --text-muted: #9ca3af;
+
+    --brand-primary: #6c5ce7;
+    --brand-secondary: #00cec9;
+    --brand-gradient: linear-gradient(135deg, #6c5ce7, #00cec9);
+
+    --border-light: #e5e7eb;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 999px;
+
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    min-height: 100vh;
-    color: #ffffff;
+    font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
 }
 
-.app {
-    max-width: 900px;
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c9cdd4;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8adb5;
+}
+
+/* ================================================================
+   App Shell
+   ================================================================ */
+.app-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Topbar ── */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.topbar-inner {
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 20px;
-    min-height: 100vh;
+    padding: 0 28px;
+    height: 60px;
     display: flex;
-    flex-direction: column;
-}
-
-.app-header {
-    text-align: center;
-    padding: 20px 0;
-}
-
-.app-header h1 {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    background: linear-gradient(90deg, #00d4ff, #7b2ff7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.tab-nav {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-}
-
-.tab-nav button {
-    padding: 10px 24px;
-    border: none;
-    border-radius: 25px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
-
-.tab-nav button:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.tab-nav button.active {
-    background: linear-gradient(90deg, #00d4ff, #7b2ff7);
-    font-weight: 600;
-}
-
-.app-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-body {
-    margin: 0;
-    font-family: Inter, system-ui, Arial;
-    background: linear-gradient(120deg, #0f172a, #1e293b);
-    color: white;
-}
-
-.app {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-/* Header */
-.app-header {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 18px 40px;
-    background: rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    gap: 16px;
 }
 
-.app-header h1 {
-    margin: 0;
-    font-size: 1.5rem;
-}
-
-/* Tabs */
-.tab-nav {
+/* ── Brand ── */
+.brand-group {
     display: flex;
+    align-items: center;
     gap: 10px;
 }
 
-.tab-nav button {
-    padding: 10px 18px;
-    border-radius: 20px;
+.brand-logo {
+    display: flex;
+    gap: 3px;
+}
+
+.brand-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.brand-dot.d1 {
+    background: #6c5ce7;
+}
+
+.brand-dot.d2 {
+    background: #00cec9;
+}
+
+.brand-dot.d3 {
+    background: #fd79a8;
+}
+
+.brand-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+/* ── Breadcrumb ── */
+.breadcrumb-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.breadcrumb-sep {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.breadcrumb-txt {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* ── Essay Meta ── */
+.essay-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+    padding-left: 16px;
+    border-left: 1px solid var(--border-light);
+}
+
+.meta-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.meta-value {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.meta-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+    background: rgba(108, 92, 231, 0.08);
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+}
+
+/* ── Tab Pills ── */
+.tab-pills {
+    display: flex;
+    gap: 4px;
+    background: #f1f3f7;
+    border-radius: var(--radius-full);
+    padding: 3px;
+}
+
+.pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 18px;
+    border-radius: var(--radius-full);
     border: none;
-    background: rgba(255, 255, 255, 0.1);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.25s ease;
+}
+
+.pill:hover {
+    color: var(--text-primary);
+}
+
+.pill-active {
+    background: white;
+    color: var(--brand-primary);
+    font-weight: 600;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Header Avatar ── */
+.header-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6c5ce7, #00cec9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: transform 0.2s ease;
+    margin-left: 8px;
 }
 
-.tab-nav button:hover {
-    background: rgba(255, 255, 255, 0.2);
+.header-avatar:hover {
+    transform: scale(1.08);
 }
 
-.tab-nav button.active {
-    background: linear-gradient(90deg, #00d4ff, #7b2ff7);
-}
-
-/* Main content */
-.app-main {
+/* ================================================================
+   Main Content
+   ================================================================ */
+.main-content {
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: stretch;
-    padding: 25px;
+    padding: 28px;
+}
+
+.content-container {
+    width: 100%;
+    max-width: 1100px;
+}
+
+/* ================================================================
+   Responsive
+   ================================================================ */
+@media (max-width: 900px) {
+    .topbar-inner {
+        padding: 0 14px;
+        gap: 10px;
+    }
+
+    .essay-meta {
+        display: none;
+    }
+
+    .breadcrumb-row {
+        display: none;
+    }
+
+    .main-content {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .tab-pills {
+        font-size: 0.78rem;
+    }
+
+    .pill {
+        padding: 6px 12px;
+    }
 }

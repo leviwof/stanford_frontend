@@ -1,110 +1,67 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Base button */
-.button {
+/* ── Voice Button ── */
+.voiceBtn {
     position: relative;
-    width: 64px;
-    height: 64px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: none;
-    cursor: pointer;
+    border: 1.5px solid var(--border-light);
+    background: var(--bg-white);
+    color: var(--text-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.6rem;
-    color: white;
-    background: linear-gradient(135deg, #7b2ff7, #00d4ff);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
 }
 
-.button:hover {
-    transform: scale(1.06);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+.voiceBtn:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+    background: rgba(108, 92, 231, 0.04);
 }
 
-/* Recording animation */
-.button.recording {
-    background: linear-gradient(135deg, #ff4d4d, #ff0000);
-    animation: pulse 1.4s infinite;
+/* Recording state */
+.voiceBtn.recording {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #ef4444;
+    animation: pulseBtn 1.5s ease-in-out infinite;
 }
 
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+@keyframes pulseBtn {
+
+    0%,
+    100% {
+        transform: scale(1);
     }
 
-    70% {
-        box-shadow: 0 0 0 18px rgba(255, 0, 0, 0);
+    50% {
+        transform: scale(1.06);
+    }
+}
+
+/* Pulse rings */
+.pulse {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid rgba(239, 68, 68, 0.4);
+    animation: pulseRing 1.4s ease-out infinite;
+}
+
+.pulse2 {
+    animation-delay: 0.4s;
+}
+
+@keyframes pulseRing {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
     }
 
     100% {
-        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+        transform: scale(1.6);
+        opacity: 0;
     }
-}
-
-/* AI speaking glow */
-.button.aiSpeaking {
-    background: linear-gradient(135deg, #7b2ff7, #00d4ff);
-    animation: aiGlow 1.5s infinite alternate;
-}
-
-@keyframes aiGlow {
-    from {
-        box-shadow: 0 0 10px rgba(123, 47, 247, 0.4);
-    }
-
-    to {
-        box-shadow: 0 0 25px rgba(0, 212, 255, 0.6);
-    }
-}
-
-/* Wave bars */
-.waves {
-    position: absolute;
-    display: flex;
-    gap: 4px;
-    opacity: 0;
-}
-
-.button.recording .waves,
-.button.aiSpeaking .waves {
-    opacity: 1;
-}
-
-.waves span {
-    width: 4px;
-    height: 18px;
-    background: white;
-    border-radius: 4px;
-    animation: wave 0.5s infinite alternate;
-}
-
-.waves span:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-.waves span:nth-child(3) {
-    animation-delay: 0.2s;
-}
-
-@keyframes wave {
-    from {
-        transform: scaleY(1);
-    }
-
-    to {
-        transform: scaleY(0.5);
-    }
-}
-
-.status {
-    font-size: 0.8rem;
-    color: var(--text);
-    opacity: 0.7;
 }

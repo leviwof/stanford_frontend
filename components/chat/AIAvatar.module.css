@@ -1,128 +1,121 @@
 .avatar {
     position: relative;
-    width: 80px;
-    height: 80px;
-}
-
-.inner {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #7b2ff7 0%, #00d4ff 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s ease;
+    flex-shrink: 0;
 }
 
-.speaking .inner {
-    animation: pulse 1s ease-in-out infinite;
+/* ── Outer gradient ring ── */
+.ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+            #6c5ce7,
+            #00cec9,
+            #fd79a8,
+            #fdcb6e,
+            #6c5ce7);
+    animation: spinSlow 4s linear infinite;
 }
 
-@keyframes pulse {
+.speaking .ring {
+    animation: spinFast 1.2s linear infinite;
+}
+
+/* ── Inner ring (white gap) ── */
+.innerRing {
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: white;
+    z-index: 1;
+}
+
+/* ── Core dot ── */
+.core {
+    position: relative;
+    z-index: 2;
+    width: 55%;
+    height: 55%;
+    border-radius: 50%;
+    background: conic-gradient(from 120deg,
+            #6c5ce7,
+            #00cec9,
+            #fd79a8,
+            #6c5ce7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spinSlow 6s linear infinite reverse;
+}
+
+.speaking .core {
+    animation: pulseSpeaking 0.8s ease-in-out infinite, spinSlow 2s linear infinite reverse;
+}
+
+.coreInner {
+    width: 40%;
+    height: 40%;
+    border-radius: 50%;
+    background: white;
+}
+
+/* ── Ripple when speaking ── */
+.ripple {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid rgba(108, 92, 231, 0.3);
+    animation: rippleOut 1.5s ease-out infinite;
+}
+
+.ripple2 {
+    animation-delay: 0.4s;
+}
+
+/* ── Keyframes ── */
+@keyframes spinSlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinFast {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulseSpeaking {
 
     0%,
     100% {
-        transform: scale(1);
+        transform: scale(1) rotate(0deg);
     }
 
     50% {
-        transform: scale(1.08);
+        transform: scale(1.1) rotate(180deg);
     }
 }
 
-.face {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
-
-.eyes {
-    display: flex;
-    gap: 12px;
-}
-
-.eye {
-    width: 8px;
-    height: 8px;
-    background: white;
-    border-radius: 50%;
-}
-
-.speaking .eye {
-    animation: blink 2s infinite;
-}
-
-@keyframes blink {
-
-    0%,
-    90%,
-    100% {
-        transform: scaleY(1);
-    }
-
-    95% {
-        transform: scaleY(0.1);
-    }
-}
-
-.mouth {
-    width: 20px;
-    height: 6px;
-    background: white;
-    border-radius: 10px;
-}
-
-.speaking .mouth {
-    animation: talk 0.3s infinite alternate;
-}
-
-@keyframes talk {
+@keyframes rippleOut {
     0% {
-        height: 6px;
-        border-radius: 10px;
+        transform: scale(1);
+        opacity: 0.5;
     }
 
     100% {
-        height: 12px;
-        border-radius: 50%;
-    }
-}
-
-/* Animated rings */
-.ring {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 2px solid rgba(123, 47, 247, 0.5);
-    border-radius: 50%;
-    animation: ripple 1.5s infinite ease-out;
-}
-
-.ring1 {
-    animation-delay: 0s;
-}
-
-.ring2 {
-    animation-delay: 0.3s;
-}
-
-.ring3 {
-    animation-delay: 0.6s;
-}
-
-@keyframes ripple {
-    0% {
-        width: 80px;
-        height: 80px;
-        opacity: 1;
-    }
-
-    100% {
-        width: 150px;
-        height: 150px;
+        transform: scale(1.8);
         opacity: 0;
     }
 }

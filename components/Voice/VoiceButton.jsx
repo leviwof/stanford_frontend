@@ -1,49 +1,71 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './VoiceButton.module.css';
 
 function VoiceButton({ onTranscript }) {
     const [isRecording, setIsRecording] = useState(false);
     const recRef = useRef(null);
 
-    const SpeechRecognition =
-        window.SpeechRecognition || window.webkitSpeechRecognition;
+    const getSR = () => {
+        if (typeof window === 'undefined') return null;
+        return window.SpeechRecognition || window.webkitSpeechRecognition || null;
+    };
 
     const start = () => {
-        if (!SpeechRecognition) {
-            alert("SpeechRecognition not supported");
+        const SR = getSR();
+        if (!SR) {
+            // Fallback: prompt user to type instead
+            const text = prompt('Voice input is not supported in this browser. Type your response:');
+            if (text?.trim()) onTranscript(text.trim());
             return;
         }
 
-        const rec = new SpeechRecognition();
-        rec.lang = "en-US";
+        try {
+            const rec = new SR();
+            rec.lang = 'en-US';
+            rec.continuous = false;
+            rec.interimResults = false;
+            rec.maxAlternatives = 1;
 
-        rec.onresult = (e) => {
-            const text = e.results[0][0].transcript;
-            onTranscript(text);   // send to chat
-        };
+            rec.onresult = (e) => {
+                const text = e.results[0]?.[0]?.transcript || '';
+                if (text.trim()) onTranscript(text.trim());
+            };
 
-        rec.onstart = () => setIsRecording(true);
-        rec.onend = () => setIsRecording(false);
+            rec.onstart = () => setIsRecording(true);
+            rec.onend = () => setIsRecording(false);
+            rec.onerror = () => setIsRecording(false);
 
-        recRef.current = rec;
-        rec.start();
+            recRef.current = rec;
+            rec.start();
+        } catch (err) {
+            console.error('Speech recognition error:', err);
+            setIsRecording(false);
+        }
     };
 
-    const stop = () => recRef.current?.stop();
+    const stop = () => {
+        try { recRef.current?.stop(); } catch (e) { /* ignore */ }
+        setIsRecording(false);
+    };
 
     return (
         <button
-            className={`${styles.button} ${isRecording ? styles.recording : ''}`}
+            className={`${styles.voiceBtn} ${isRecording ? styles.recording : ''}`}
             onClick={() => (isRecording ? stop() : start())}
+            title={isRecording ? 'Stop recording' : 'Start voice input'}
+            id="voice-btn"
         >
-            🎤
-            <div className={styles.waves}>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </button>
+            <span className="material-icons-round" style={{ fontSize: '20px' }}>
+                {isRecording ? 'mic_off' : 'mic'}
+            </span>
 
+            {isRecording && (
+                <>
+                    <span className={styles.pulse}></span>
+                    <span className={`${styles.pulse} ${styles.pulse2}`}></span>
+                </>
+            )}
+        </button>
     );
 }
 
